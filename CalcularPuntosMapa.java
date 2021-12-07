@@ -16,6 +16,7 @@ public class CalcularPuntosMapa {
 			
 			paradas = new HashMap<Integer,Parada>(52);
 			LeerDef(sc);
+			System.out.println("Fin de lecura de paradas");
 			definirTrasbordos(sc);
 			//mostrarConexiones();
 
@@ -45,7 +46,7 @@ public class CalcularPuntosMapa {
 			String nombre;
 			Float x;
 			Float y;
-
+			double distancia=0;
 			while (!fin&&sc.hasNext("[a-zA-Z]*[\\p{Punct}*[a-zA-Z]*]*")){
 				nombre=sc.next();
 
@@ -55,10 +56,12 @@ public class CalcularPuntosMapa {
 				}else {
 					y=Float.parseFloat(sc.next());
 					x=Float.parseFloat(sc.next());
+
 					Parada parada=new Parada(nombre, x, y,color);
 					if(prev!=null) {
 						conexionPost=new Conexion();
 						conexionPost.destino=prev;
+						conexionPost.distancia=distancia;
 						parada.conexiones.add(conexionPost);
 						conexionPre.destino=parada;
 						prev.conexiones.add(conexionPre);
@@ -67,6 +70,11 @@ public class CalcularPuntosMapa {
 					paradas.put(i, parada);
 					prev=parada;
 					conexionPre=new Conexion();
+					if(sc.hasNextDouble()){
+						distancia=sc.nextDouble();
+						conexionPre.distancia=distancia;
+					}else
+						sc.next();
 					i++;
 				}
 			}
