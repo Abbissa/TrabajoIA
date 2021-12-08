@@ -29,7 +29,6 @@ public class A_estrella {
                     terminado = true;
                 }else{
                     int idx = findInArray(listaAbierta, p);
-                    System.out.println("entro");
                     if(idx==-1){
                         Parada paradaEnListaCerrada = listaCerrada.get(p.nombre);
                         if(paradaEnListaCerrada!=null){
