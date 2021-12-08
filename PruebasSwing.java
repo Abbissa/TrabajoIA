@@ -1,4 +1,5 @@
 import java.awt.*;
+
 import java.awt.geom.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -168,8 +169,17 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		moveLeft.setMultiClickThreshhold(100);
 		moveRight.setMultiClickThreshhold(100);
 		reset.setMultiClickThreshhold(100);
-
+		
 		PruebasSwing PS = new PruebasSwing();
+		//Prueba entre Lisova-Pecherska
+		Pair<Double,Parada> res = A_estrella.calcular(PS.paradas.get(0), PS.paradas.get(42));
+
+		System.out.println("\tCoste total: " + res.getLeft());
+		Parada meta = res.getRight();
+		while(meta!=null){
+			System.out.println(meta.nombre);
+			meta = meta.parent;
+		}
 		reset.addActionListener(PS);
 		moveUp.addActionListener(PS);
 		moveDown.addActionListener(PS);
@@ -190,6 +200,8 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		frame.setSize(1000, 1000);
 		frame.setLocation(200, 200);
 		frame.setVisible(true);
+		
+		
 	}
 
 	@Override
