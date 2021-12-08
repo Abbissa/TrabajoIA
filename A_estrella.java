@@ -67,7 +67,7 @@ public class A_estrella {
                     listaAbierta.sort(comp);
                 }
             }
-            //Añadir nodoAct a la lista cerrada, creando una copia.
+            //Añadir nodoAct a la lista cerrada, creando una copia. Hecho
             listaCerrada.put(nodoAct.nombre, new Parada(nodoAct)); 
         }
         return res;
