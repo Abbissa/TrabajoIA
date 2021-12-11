@@ -26,16 +26,19 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 	static JButton reset;
 
-	private static Parada origen;
-	private static Parada destino;
+	private static Parada paradaOrigen;
+	private static Parada paradaDestino;
+
+	static JLabel origen;
+	static JLabel destino;
 
 	static JButton limpiar;
 
 	int nMarcados = 0;
 
 	public PruebasSwing() {
-		origen = null;
-		destino = null;
+		paradaOrigen = null;
+		paradaDestino = null;
 		paradas = CalcularPuntosMapa.CalcularPoints(1);
 	}
 
@@ -49,23 +52,19 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		marX = (int) width / 100;
 		marY = (int) height / 100;
 
-		// Se escriben las paradas origen y destino
+		// Se escriben las paradas paradaOrigen y paradaDestino
 
 		g1.setStroke(new BasicStroke(3f));
 		g1.setPaint(Color.BLACK);
-		g1.drawString("Origen: ", width - 6 * mar,  mar);
-		if (origen != null)
-			g1.drawString(origen.nombre, width - 4 * mar, mar);
-		g1.drawString("Destino: ",  width - 6 * mar, 2 * mar);
-		if (destino != null)
-			g1.drawString(destino.nombre, width - 4 * mar, 2 * mar);
+
+		origen.setBounds(width - 6 * mar, mar, 250, 20);
+		destino.setBounds(width - 6 * mar, 2 * mar, 250, 20);
 
 		// Se actualiza las posiciones de los botones
 
+		reset.setBounds(width - 6 * mar, height - mar, 5 * mar, 25);
 
-		reset.setBounds(width - 6 * mar, height - mar, 5*mar, 25);
-
-		limpiar.setBounds(width - 6 * mar, (int) (2.5*mar), 5 * mar, 25);
+		limpiar.setBounds(width - 6 * mar, (int) (2.5 * mar), 5 * mar, 25);
 
 		// Se pintan las paradas y las lineas que los unen, empezando por la parada con
 		// id = 0
@@ -95,7 +94,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		btn.setBorder(border);
 
 		// Para cada conexion de cada parada se pintan las lineas desde esa parada hasta
-		// el destino de la conexion
+		// el paradaDestino de la conexion
 
 		for (Conexion conexion : parada.conexiones) {
 
@@ -121,7 +120,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 					Y.intValue() + 5);
 			g1.draw(linea);
 
-			// Si la parada destino no esta entre las visitadas se pinta
+			// Si la parada paradaDestino no esta entre las visitadas se pinta
 
 			if (!set.contains(paradaAux))
 				pintarPuntos(width, height, set, paradaAux);
@@ -135,21 +134,26 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
 		reset = new JButton();
 
 		reset.setText("Reset");
 
 		reset.setMultiClickThreshhold(100);
 
-		limpiar=new JButton();
+		limpiar = new JButton();
 
 		limpiar.setText("Borrar selección");
 
 		PruebasSwing PS = new PruebasSwing();
 
+
 		reset.addActionListener(PS);
 
+		origen = new JLabel();
+		destino = new JLabel();
+
+		origen.setText("Origen: ");
+		destino.setText("Destino: ");
 
 		limpiar.addActionListener(PS);
 		frame.setFocusable(true);
@@ -158,7 +162,9 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		frame.add(PS);
 		PS.add(reset);
 		PS.add(limpiar);
-		
+		PS.add(origen);
+		PS.add(destino);
+
 		frame.setSize(1000, 1000);
 		frame.setLocation(200, 200);
 		frame.setVisible(true);
@@ -179,25 +185,29 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		// Acciones de los botones	
+		// Acciones de los botones
 		// Restablece los valores por defecto del mapa
 		if (e.getSource() == reset) {
 			x = 0;
 			y = 0;
 			zoom = 1;
 		}
-		if(e.getSource()==limpiar){
-			origen.btn.setEnabled(true);
-			origen.btn.setSelected(false);
-			destino.btn.setEnabled(true);
-			destino.btn.setSelected(false);
-			origen=null;
-			destino=null;
-			nMarcados=0;
+		if (e.getSource() == limpiar) {
+			if (paradaOrigen != null) {
+				paradaOrigen.btn.setEnabled(true);
+				paradaOrigen.btn.setSelected(false);
+				paradaOrigen = null;
+			}
+			if (paradaDestino != null) {
+				paradaDestino.btn.setEnabled(true);
+				paradaDestino.btn.setSelected(false);
+
+				paradaDestino = null;
+			}
+
+			nMarcados = 0;
 			habilitarCheckBoxes();
 		}
-
-
 
 		for (int i = 0; i < paradas.size(); i++) {
 
@@ -205,12 +215,13 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 				nMarcados++;
 				paradas.get(i).btn.setEnabled(false);
 				if (nMarcados == 2) {
-					destino = paradas.get(i);
+					paradaDestino = paradas.get(i);
+					destino.setText("Destino: " + paradaDestino.nombre);
 					deshabilitarCheckBoxes();
-					Trio<Double, Double, Parada> res = A_estrella.calcular(origen, destino);
+					Trio<Double, Double, Parada> res = A_estrella.calcular(paradaOrigen, paradaDestino);
 
 					System.out.println("\tCoste total: " + res.getLeft());
-					//System.out.println("\tDistancia total: " + res.getCenter());
+					// System.out.println("\tDistancia total: " + res.getCenter());
 					Parada meta = res.getRight();
 					while (meta != null) {
 						meta.btn.setBackground(meta.color);
@@ -218,7 +229,8 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 						meta = meta.parent;
 					}
 				} else {
-					origen = paradas.get(i);
+					paradaOrigen = paradas.get(i);
+					origen.setText("Origen: " + paradaOrigen.nombre);
 				}
 			}
 
@@ -231,18 +243,19 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		for (int i = 0; i < paradas.size(); i++) {
 			Parada temp = paradas.get(i);
 			temp.btn.setEnabled(false);
-			if (temp != origen && temp != destino) {
+			if (temp != paradaOrigen && temp != paradaDestino) {
 				temp.btn.setBackground(new Color(238, 238, 238));
 
 			}
 		}
 
 	}
-	private void habilitarCheckBoxes(){
+
+	private void habilitarCheckBoxes() {
 		for (int i = 0; i < paradas.size(); i++) {
 			Parada temp = paradas.get(i);
 			temp.btn.setEnabled(true);
-			if (temp != origen && temp != destino) {
+			if (temp != paradaOrigen && temp != paradaDestino) {
 				temp.btn.setBackground(temp.color);
 
 			}
@@ -257,18 +270,17 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		
-		
+
 		int code = e.getKeyCode();
-		if(code==KeyEvent.VK_UP) {
-			//mueve la "camara" hacia arriba, en realidad lo que hace es disminuir
+		if (code == KeyEvent.VK_UP) {
+			// mueve la "camara" hacia arriba, en realidad lo que hace es disminuir
 			// la y del mapa
 			if (y < .2) {
 				y += .01;
 			}
 			this.repaint();
 
-		}else if(code==KeyEvent.VK_DOWN) {
+		} else if (code == KeyEvent.VK_DOWN) {
 			// moveUp mueve la "camara" hacia abajo, en realidad lo que hace es aumentar la
 			// y del mapa
 			if (y > -.7) {
@@ -276,32 +288,34 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 			}
 			this.repaint();
 
-		}else if(code==KeyEvent.VK_RIGHT) {
-			// moveUp mueve la "camara" hacia la derecha, en realidad lo que hace es disminuye la
+		} else if (code == KeyEvent.VK_RIGHT) {
+			// moveUp mueve la "camara" hacia la derecha, en realidad lo que hace es
+			// disminuye la
 			// x del mapa
 			if (x > -.7) {
 				x -= .01;
 			}
 			this.repaint();
 
-		}else if(code==KeyEvent.VK_LEFT) {
-			// moveUp mueve la "camara" hacia la izquierda, en realidad lo que hace es aumenta la
+		} else if (code == KeyEvent.VK_LEFT) {
+			// moveUp mueve la "camara" hacia la izquierda, en realidad lo que hace es
+			// aumenta la
 			// x del mapa
 			if (x < .2) {
 				x += .01;
 			}
-			
+
 			this.repaint();
 
-		}else if(code==KeyEvent.VK_PLUS) {
-			//aumenta el zoom hasta que llega a un limite
+		} else if (code == KeyEvent.VK_PLUS) {
+			// aumenta el zoom hasta que llega a un limite
 			if (zoom < 3.5f) {
 				zoom += 0.25f;
 			}
 			this.repaint();
 
-		}else if(code==KeyEvent.VK_MINUS) {
-			//disminuye el zoom hasta que llega a un limite
+		} else if (code == KeyEvent.VK_MINUS) {
+			// disminuye el zoom hasta que llega a un limite
 			if (zoom > 0.75f) {
 				zoom -= 0.25f;
 			}
