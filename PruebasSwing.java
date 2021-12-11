@@ -22,7 +22,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 	int compensacionX = 0;
 	int compensacionY = 0;
 
-	HashMap<Integer, Parada> paradas;
+	static HashMap<Integer, Parada> paradas;
 
 	static JButton zoomIn;
 	static JButton zoomOut;
@@ -33,7 +33,16 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 	static JButton moveLeft;
 	static JButton reset;
 
+	private static Parada origen;
+	private static Parada destino;
+
+	static JButton limpiar;
+
+	int nMarcados = 0;
+
 	public PruebasSwing() {
+		origen = null;
+		destino = null;
 		paradas = CalcularPuntosMapa.CalcularPoints(1);
 	}
 
@@ -51,8 +60,12 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		g1.setStroke(new BasicStroke(3f));
 		g1.setPaint(Color.BLACK);
-		g1.drawString("Origen: ", width - 16 * marX, 3 * marY);
-		g1.drawString("Destino: ", width - 16 * marX, 7 * marY);
+		g1.drawString("Origen: ", width - 6 * mar,  mar);
+		if (origen != null)
+			g1.drawString(origen.nombre, width - 4 * mar, mar);
+		g1.drawString("Destino: ",  width - 6 * mar, 2 * mar);
+		if (destino != null)
+			g1.drawString(destino.nombre, width - 4 * mar, 2 * mar);
 
 		// Se actualiza las posiciones de los botones
 
@@ -65,6 +78,8 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		moveDown.setBounds(width - 6 * mar, height - mar, 50, 25);
 
 		reset.setBounds(width - 9 * mar, height - mar, 75, 25);
+
+		limpiar.setBounds(width - 6 * mar, (int) (2.5*mar), 5 * mar, 25);
 
 		// Se pintan las paradas y las lineas que los unen, empezando por la parada con
 		// id = 0
@@ -88,22 +103,10 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		// parte
 
 		JCheckBox btn = parada.btn;
-		btn.setToolTipText(parada.nombre);
-		btn.createToolTip().setForeground(parada.color);
 		btn.setBounds(X.intValue() - 2, Y.intValue() - 2, 15, 15);
 
-		g1.setStroke(new BasicStroke(3f));
 		Border border = new LineBorder(parada.color, 1);
 		btn.setBorder(border);
-		btn.setBackground(parada.color);
-		btn.setForeground(parada.color);
-		add(btn);
-
-		// Se pintan los puntos de las paradas, actualmente no visibles porque los tapan
-		// los botones
-
-		g1.setPaint(parada.color);
-		g1.fill(new Ellipse2D.Double(X + 2.5, Y + 2.5, 10, 10));
 
 		// Para cada conexion de cada parada se pintan las lineas desde esa parada hasta
 		// el destino de la conexion
@@ -159,6 +162,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		moveLeft = new JButton();
 		reset = new JButton();
 
+
 		moveUp.setText("â†‘");
 		moveLeft.setText("â†�");
 		moveRight.setText("â†’");
@@ -169,14 +173,18 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		moveLeft.setMultiClickThreshhold(100);
 		moveRight.setMultiClickThreshhold(100);
 		reset.setMultiClickThreshhold(100);
-		
+
+		limpiar=new JButton();
+
+		limpiar.setText("Borrar selección");
+
 		PruebasSwing PS = new PruebasSwing();
-		//Prueba entre Lisova-Pecherska
-		Pair<Double,Parada> res = A_estrella.calcular(PS.paradas.get(0), PS.paradas.get(42));
+		// Prueba entre Lisova-Pecherska
+		Pair<Double, Parada> res = A_estrella.calcular(paradas.get(0), paradas.get(42));
 
 		System.out.println("\tCoste total: " + res.getLeft());
 		Parada meta = res.getRight();
-		while(meta!=null){
+		while (meta != null) {
 			System.out.println(meta.nombre);
 			meta = meta.parent;
 		}
@@ -189,6 +197,9 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		zoomOut.addActionListener(PS);
 		zoomIn.addActionListener(PS);
 
+		limpiar.addActionListener(PS);
+		
+
 		frame.add(PS);
 		PS.add(zoomIn);
 		PS.add(zoomOut);
@@ -197,11 +208,23 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		PS.add(moveRight);
 		PS.add(moveLeft);
 		PS.add(reset);
+		PS.add(limpiar);
+		
 		frame.setSize(1000, 1000);
 		frame.setLocation(200, 200);
 		frame.setVisible(true);
-		
-		
+
+		for (int i = 0; i < paradas.size(); i++) {
+			Parada temp = paradas.get(i);
+			JCheckBox btn = temp.btn;
+
+			btn.addActionListener(PS);
+			btn.setToolTipText(temp.nombre);
+			btn.setBackground(temp.color);
+
+			PS.add(btn);
+		}
+
 	}
 
 	@Override
@@ -287,8 +310,65 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 			zoomIn.setEnabled(true);
 			zoomOut.setEnabled(true);
 		}
+		if(e.getSource()==limpiar){
+			origen.btn.setEnabled(true);
+			origen.btn.setSelected(false);
+			destino.btn.setEnabled(true);
+			destino.btn.setSelected(false);
+			origen=null;
+			destino=null;
+			nMarcados=0;
+			habilitarCheckBoxes();
+		}
 
+
+
+		for (int i = 0; i < paradas.size(); i++) {
+
+			if (e.getSource() == paradas.get(i).btn) {
+				nMarcados++;
+				paradas.get(i).btn.setEnabled(false);
+				if (nMarcados == 2) {
+					destino = paradas.get(i);
+					deshabilitarCheckBoxes();
+					Pair<Double, Parada> res = A_estrella.calcular(origen, destino);
+
+					System.out.println("\tCoste total: " + res.getLeft());
+					Parada meta = res.getRight();
+					while (meta != null) {
+						System.out.println(meta.nombre);
+						meta = meta.parent;
+					}
+				} else {
+					origen = paradas.get(i);
+				}
+			}
+
+		}
 		this.repaint();
+	}
+
+	private void deshabilitarCheckBoxes() {
+
+		for (int i = 0; i < paradas.size(); i++) {
+			Parada temp = paradas.get(i);
+			temp.btn.setEnabled(false);
+			if (temp != origen && temp != destino) {
+				temp.btn.setBackground(new Color(238, 238, 238));
+
+			}
+		}
+
+	}
+	private void habilitarCheckBoxes(){
+		for (int i = 0; i < paradas.size(); i++) {
+			Parada temp = paradas.get(i);
+			temp.btn.setEnabled(true);
+			if (temp != origen && temp != destino) {
+				temp.btn.setBackground(temp.color);
+
+			}
+		}
 
 	}
 

@@ -35,7 +35,7 @@ public class CalcularPuntosMapa {
 	private static void LeerDef(Scanner sc) {
 		boolean fin=false;
 		int i=0;
-		double velocidadMetro = 36,11;
+		double velocidadMetro = 36.11;
 
 		while(!fin&&sc.hasNextInt()){
 			int[]colores= {sc.nextInt(),sc.nextInt(),sc.nextInt()};
@@ -89,7 +89,7 @@ public class CalcularPuntosMapa {
 		int id1=0;
 		int id2=0;
 		double distanciaTrasbordo;
-		double velocidadHumano =5,0;
+		double velocidadHumano =5.0;
 		Parada parada1;
 		Parada parada2;
 		Conexion conexion1;
