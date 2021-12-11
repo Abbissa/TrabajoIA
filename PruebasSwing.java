@@ -180,14 +180,14 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		PruebasSwing PS = new PruebasSwing();
 		// Prueba entre Lisova-Pecherska
-		Pair<Double, Parada> res = A_estrella.calcular(paradas.get(0), paradas.get(42));
+		// Pair<Double, Parada> res = A_estrella.calcular(paradas.get(0), paradas.get(42));
 
-		System.out.println("\tCoste total: " + res.getLeft());
-		Parada meta = res.getRight();
-		while (meta != null) {
-			System.out.println(meta.nombre);
-			meta = meta.parent;
-		}
+		// System.out.println("\tCoste total: " + res.getLeft());
+		// Parada meta = res.getRight();
+		// while (meta != null) {
+		// 	System.out.println(meta.nombre);
+		// 	meta = meta.parent;
+		// }
 		reset.addActionListener(PS);
 		moveUp.addActionListener(PS);
 		moveDown.addActionListener(PS);
@@ -336,6 +336,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 					System.out.println("\tCoste total: " + res.getLeft());
 					Parada meta = res.getRight();
 					while (meta != null) {
+						meta.btn.setBackground(meta.color);
 						System.out.println(meta.nombre);
 						meta = meta.parent;
 					}
