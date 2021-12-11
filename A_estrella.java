@@ -47,7 +47,7 @@ public class A_estrella {
 							Parada pCpy = new Parada(p);
 							pCpy.gDistancia = nodoAct.gDistancia + conex.distancia;
 							pCpy.g = nodoAct.g + conex.distancia/conex.velocidad;
-							pCpy.h = haversine(p.y, p.x, meta.y, meta.x);
+							pCpy.h = haversine(p.y, p.x, meta.y, meta.x)/36.11;
 							pCpy.parent = new Parada(nodoAct);
 							listaAbierta.add(pCpy);
 						}
