@@ -35,6 +35,7 @@ public class CalcularPuntosMapa {
 	private static void LeerDef(Scanner sc) {
 		boolean fin=false;
 		int i=0;
+		double velocidadMetro = 36,11;
 
 		while(!fin&&sc.hasNextInt()){
 			int[]colores= {sc.nextInt(),sc.nextInt(),sc.nextInt()};
@@ -62,6 +63,7 @@ public class CalcularPuntosMapa {
 						conexionPost=new Conexion();
 						conexionPost.destino=prev;
 						conexionPost.distancia=distancia;
+						conexionPost.velocidad=velocidadMetro;
 						parada.conexiones.add(conexionPost);
 						conexionPre.destino=parada;
 						prev.conexiones.add(conexionPre);
@@ -73,6 +75,7 @@ public class CalcularPuntosMapa {
 					if(sc.hasNextDouble()){
 						distancia=sc.nextDouble();
 						conexionPre.distancia=distancia;
+						conexionPre.velocidad=velocidadMetro;
 					}else
 						sc.next();
 					i++;
@@ -85,7 +88,8 @@ public class CalcularPuntosMapa {
 	private static void definirTrasbordos(Scanner sc) {
 		int id1=0;
 		int id2=0;
-		Double distanciaTrasbordo;
+		double distanciaTrasbordo;
+		double velocidadHumano;
 		Parada parada1;
 		Parada parada2;
 		Conexion conexion1;
@@ -97,11 +101,13 @@ public class CalcularPuntosMapa {
 			parada2=paradas.get(id2);
 			conexion1=new Conexion();
 			conexion1.distancia=distanciaTrasbordo;
+			conexion1.velocidad=velocidadHumano;
 			conexion1.destino=parada2;
 			parada1.conexiones.add(conexion1);
 			conexion1=new Conexion();
-			conexion1.destino=parada1;
 			conexion1.distancia=distanciaTrasbordo;
+			conexion1.velocidad=velocidadHumano;
+			conexion1.destino=parada1;
 			parada2.conexiones.add(conexion1);
 		}
 
