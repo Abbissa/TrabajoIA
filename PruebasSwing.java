@@ -32,6 +32,9 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 	static JLabel origen;
 	static JLabel destino;
 
+	static JLabel tiempo;
+	static JLabel distancia;
+
 	static JButton limpiar;
 
 	int nMarcados = 0;
@@ -59,6 +62,9 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		origen.setBounds(width - 6 * mar, mar, 250, 20);
 		destino.setBounds(width - 6 * mar, 2 * mar, 250, 20);
+
+		tiempo.setBounds(width - 6 * mar, 4 * mar, 250, 20);
+		distancia.setBounds(width - 6 * mar, 5 * mar, 250, 20);
 
 		// Se actualiza las posiciones de los botones
 
@@ -151,9 +157,14 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		origen = new JLabel();
 		destino = new JLabel();
+		tiempo= new JLabel();
+		distancia=new JLabel();
 
 		origen.setText("Origen: ");
 		destino.setText("Destino: ");
+
+		tiempo.setText("Tiempo total: ");
+		distancia.setText("Distancia total: ");
 
 		limpiar.addActionListener(PS);
 		frame.setFocusable(true);
@@ -164,6 +175,9 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		PS.add(limpiar);
 		PS.add(origen);
 		PS.add(destino);
+
+		PS.add(tiempo);
+		PS.add(distancia);
 
 		frame.setSize(1000, 1000);
 		frame.setLocation(200, 200);
@@ -197,13 +211,16 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 				paradaOrigen.btn.setEnabled(true);
 				paradaOrigen.btn.setSelected(false);
 				paradaOrigen = null;
+				origen.setText("Origen: ");
 			}
 			if (paradaDestino != null) {
 				paradaDestino.btn.setEnabled(true);
 				paradaDestino.btn.setSelected(false);
-
 				paradaDestino = null;
+				destino.setText("Destino: ");
 			}
+			tiempo.setText("Tiempo total: ");
+			distancia.setText("Distancia total: ");
 
 			nMarcados = 0;
 			habilitarCheckBoxes();
@@ -221,6 +238,9 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 					Trio<Double, Double, Parada> res = A_estrella.calcular(paradaOrigen, paradaDestino);
 
 					System.out.println("\tCoste total: " + res.getLeft());
+
+					tiempo.setText("Tiempo total: "+(int) (res.getLeft()*60) +" minutos y "+ (int)((res.getLeft()*60-(int)(res.getLeft()*60))*60)+" segundos");
+					distancia.setText("Distancia total: "+res.getCenter()+" Km");
 					// System.out.println("\tDistancia total: " + res.getCenter());
 					Parada meta = res.getRight();
 					while (meta != null) {
