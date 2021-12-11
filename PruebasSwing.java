@@ -24,13 +24,6 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 	static HashMap<Integer, Parada> paradas;
 
-	static JButton zoomIn;
-	static JButton zoomOut;
-
-	static JButton moveUp;
-	static JButton moveDown;
-	static JButton moveRight;
-	static JButton moveLeft;
 	static JButton reset;
 
 	private static Parada origen;
@@ -69,15 +62,8 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		// Se actualiza las posiciones de los botones
 
-		zoomIn.setBounds(width - 3 * mar, height - mar, 50, 25);
-		zoomOut.setBounds(width - 2 * mar, height - mar, 50, 25);
 
-		moveRight.setBounds(width - 5 * mar, height - mar, 50, 25);
-		moveLeft.setBounds(width - 7 * mar, height - mar, 50, 25);
-		moveUp.setBounds(width - 6 * mar, height - mar - mar / 2, 50, 25);
-		moveDown.setBounds(width - 6 * mar, height - mar, 50, 25);
-
-		reset.setBounds(width - 9 * mar, height - mar, 75, 25);
+		reset.setBounds(width - 6 * mar, height - mar, 5*mar, 25);
 
 		limpiar.setBounds(width - 6 * mar, (int) (2.5*mar), 5 * mar, 25);
 
@@ -149,29 +135,11 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		zoomIn = new JButton();
-		zoomOut = new JButton();
-		zoomOut.setText("-");
-		zoomIn.setText("+");
-		zoomOut.setMultiClickThreshhold(100);
-		zoomIn.setMultiClickThreshhold(100);
 
-		moveUp = new JButton();
-		moveDown = new JButton();
-		moveRight = new JButton();
-		moveLeft = new JButton();
 		reset = new JButton();
 
-
-		moveUp.setText("â†‘");
-		moveLeft.setText("â†�");
-		moveRight.setText("â†’");
-		moveDown.setText("â†“");
 		reset.setText("Reset");
-		moveUp.setMultiClickThreshhold(100);
-		moveDown.setMultiClickThreshhold(100);
-		moveLeft.setMultiClickThreshhold(100);
-		moveRight.setMultiClickThreshhold(100);
+
 		reset.setMultiClickThreshhold(100);
 
 		limpiar=new JButton();
@@ -179,34 +147,15 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		limpiar.setText("Borrar selección");
 
 		PruebasSwing PS = new PruebasSwing();
-		// Prueba entre Lisova-Pecherska
-		// Pair<Double, Parada> res = A_estrella.calcular(paradas.get(0), paradas.get(42));
 
-		// System.out.println("\tCoste total: " + res.getLeft());
-		// Parada meta = res.getRight();
-		// while (meta != null) {
-		// 	System.out.println(meta.nombre);
-		// 	meta = meta.parent;
-		// }
 		reset.addActionListener(PS);
-		moveUp.addActionListener(PS);
-		moveDown.addActionListener(PS);
-		moveRight.addActionListener(PS);
-		moveLeft.addActionListener(PS);
 
-		zoomOut.addActionListener(PS);
-		zoomIn.addActionListener(PS);
 
 		limpiar.addActionListener(PS);
-		
+		frame.setFocusable(true);
+		frame.addKeyListener(PS);
 
 		frame.add(PS);
-		PS.add(zoomIn);
-		PS.add(zoomOut);
-		PS.add(moveUp);
-		PS.add(moveDown);
-		PS.add(moveRight);
-		PS.add(moveLeft);
 		PS.add(reset);
 		PS.add(limpiar);
 		
@@ -230,85 +179,12 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		// Acciones de los botones
-
-		// zoomOut disminuye el zoom hasta que llega a un limite
-		if (e.getSource() == zoomOut) {
-
-			zoom -= 0.25f;
-			zoomIn.setEnabled(true);
-
-			if (zoom == 0.75f) {
-				zoomOut.setEnabled(false);
-			}
-		}
-		// zoomIn aumenta el zoom hasta que llega a un limite
-		if (e.getSource() == zoomIn) {
-
-			zoom += 0.25f;
-			zoomOut.setEnabled(true);
-
-			if (zoom == 3.5f) {
-				zoomIn.setEnabled(false);
-			}
-
-		}
-		// moveUp mueve la "camara" hacia arriba, en realidad lo que hace es disminuir
-		// la y del mapa
-		if (e.getSource() == moveUp) {
-
-			y += .01;
-			moveDown.setEnabled(true);
-			if (y >= .2) {
-				moveUp.setEnabled(false);
-			}
-
-		}
-		// moveUp mueve la "camara" hacia abajo, en realidad lo que hace es aumentar la
-		// y del mapa
-		if (e.getSource() == moveDown) {
-
-			y -= .01;
-			moveUp.setEnabled(true);
-			if (y <= -.7) {
-				moveDown.setEnabled(false);
-			}
-
-		}
-		// moveRight mueve la "camara" hacia derecha, en realidad lo que hace es
-		// disminuir la x del mapa
-		if (e.getSource() == moveRight) {
-
-			x -= .01;
-			moveLeft.setEnabled(true);
-
-			if (x <= -.7) {
-				moveRight.setEnabled(false);
-			}
-
-		}
-		// moveLeft mueve la "camara" hacia izquierda, en realidad lo que hace es
-		// aumentar la x del mapa
-		if (e.getSource() == moveLeft) {
-			x += .01;
-			moveRight.setEnabled(true);
-
-			if (x >= .2) {
-				moveLeft.setEnabled(false);
-			}
-
-		}
+		// Acciones de los botones	
 		// Restablece los valores por defecto del mapa
 		if (e.getSource() == reset) {
 			x = 0;
 			y = 0;
 			zoom = 1;
-			moveRight.setEnabled(true);
-			moveLeft.setEnabled(true);
-			moveUp.setEnabled(true);
-			moveDown.setEnabled(true);
-			zoomIn.setEnabled(true);
-			zoomOut.setEnabled(true);
 		}
 		if(e.getSource()==limpiar){
 			origen.btn.setEnabled(true);
@@ -380,13 +256,61 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
+		
+		int code = e.getKeyCode();
+		if(code==KeyEvent.VK_UP) {
+			//mueve la "camara" hacia arriba, en realidad lo que hace es disminuir
+			// la y del mapa
+			if (y < .2) {
+				y += .01;
+			}
+			this.repaint();
 
+		}else if(code==KeyEvent.VK_DOWN) {
+			// moveUp mueve la "camara" hacia abajo, en realidad lo que hace es aumentar la
+			// y del mapa
+			if (y > -.7) {
+				y -= .01;
+			}
+			this.repaint();
+
+		}else if(code==KeyEvent.VK_RIGHT) {
+			// moveUp mueve la "camara" hacia la derecha, en realidad lo que hace es disminuye la
+			// x del mapa
+			if (x > -.7) {
+				x -= .01;
+			}
+			this.repaint();
+
+		}else if(code==KeyEvent.VK_LEFT) {
+			// moveUp mueve la "camara" hacia la izquierda, en realidad lo que hace es aumenta la
+			// x del mapa
+			if (x < .2) {
+				x += .01;
+			}
+			
+			this.repaint();
+
+		}else if(code==KeyEvent.VK_PLUS) {
+			//aumenta el zoom hasta que llega a un limite
+			if (zoom < 3.5f) {
+				zoom += 0.25f;
+			}
+			this.repaint();
+
+		}else if(code==KeyEvent.VK_MINUS) {
+			//disminuye el zoom hasta que llega a un limite
+			if (zoom > 0.75f) {
+				zoom -= 0.25f;
+			}
+			this.repaint();
+
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
