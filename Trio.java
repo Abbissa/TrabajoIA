@@ -1,13 +1,11 @@
-public class Trio<O,A,E> {
+public class Pair<O,E> {
 
 
 	private E right;
-	private A center;
 	private O left;
 
-	public Trio(O left,A center,E right){
+	public Pair(O left,E right){
 		this.right= right;
-		this.center= center;
 		this.left = left;
 
 	}
@@ -27,14 +25,7 @@ public class Trio<O,A,E> {
 	public void setLeft(O left) {
 		this.left = left;
 	}
-	
-	public A getCenter() {
-		return center;
-	}
 
-	public void setCenter(A center) {
-		this.center = center;
-	}
 
 
 	
