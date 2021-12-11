@@ -248,13 +248,12 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 					paradaDestino = paradas.get(i);
 					destino.setText("Destino: " + paradaDestino.nombre);
 					deshabilitarCheckBoxes();
-					Trio<Double, Double, Parada> res = A_estrella.calcular(paradaOrigen, paradaDestino);
+					Pair<Double, Parada> res = A_estrella.calcular(paradaOrigen, paradaDestino);
 
 					System.out.println("\tCoste total: " + res.getLeft());
 
-					tiempo.setText("Tiempo total: "+(int) (res.getLeft()*60) +" min. y "+ (int)((res.getLeft()*60-(int)(res.getLeft()*60))*60)+" seg.");
-					distancia.setText("Distancia total: "+String.format("%.3f", res.getCenter())+" Km");
-					// System.out.println("\tDistancia total: " + res.getCenter());
+					tiempo.setText("Tiempo total: "+(int) ((res.getLeft()/63.11)*60) +" min. y "+ (int)(((res.getLeft()/63.11)*60-(int)((res.getLeft()/63.11)*60))*60)+" seg.");
+					distancia.setText("Distancia total: "+String.format("%.3f", res.getLeft())+" Km");
 					Parada meta = res.getRight();
 					while (meta != null) {
 						meta.btn.setBackground(meta.color);
