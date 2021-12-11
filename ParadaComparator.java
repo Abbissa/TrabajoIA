@@ -4,7 +4,7 @@ public class ParadaComparator implements Comparator<Parada> {
 
     @Override
     public int compare(Parada p1, Parada p2) {
-        return (int)(p2.f()-p1.f());
+        return (p2.f()-p1.f())>0 ? 1 : -1;
     }
     
 }
