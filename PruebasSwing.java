@@ -47,6 +47,10 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		g1 = (Graphics2D) g;
 		g1.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+
+
+
+
 		int width = getWidth();
 		int height = getHeight();
 		marX = (int) width / 100;
@@ -248,7 +252,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 					System.out.println("\tCoste total: " + res.getLeft());
 
-					tiempo.setText("Tiempo total: "+(int) (res.getLeft()*60) +" minutos y "+ (int)((res.getLeft()*60-(int)(res.getLeft()*60))*60)+" segundos");
+					tiempo.setText("Tiempo total: "+(int) (res.getLeft()*60) +" min. y "+ (int)((res.getLeft()*60-(int)(res.getLeft()*60))*60)+" seg.");
 					distancia.setText("Distancia total: "+String.format("%.3f", res.getCenter())+" Km");
 					// System.out.println("\tDistancia total: " + res.getCenter());
 					Parada meta = res.getRight();
