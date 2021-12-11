@@ -1,4 +1,3 @@
-package main;
 import java.util.Comparator;
 
 public class ParadaComparator implements Comparator<Parada> {
