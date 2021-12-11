@@ -19,9 +19,6 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 	float zoom = 1;
 	Graphics2D g1;
 
-	int compensacionX = 0;
-	int compensacionY = 0;
-
 	static HashMap<Integer, Parada> paradas;
 
 	static JButton reset;
@@ -70,7 +67,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		reset.setBounds(width - 6 * mar, height - mar, 5 * mar, 25);
 
-		limpiar.setBounds(width - 6 * mar, (int) (2.5 * mar), 5 * mar, 25);
+		limpiar.setBounds(width - 6 * mar, (int) (3 * mar), 5 * mar, 25);
 
 		// Se pintan las paradas y las lineas que los unen, empezando por la parada con
 		// id = 0
@@ -155,10 +152,21 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		reset.addActionListener(PS);
 
+
+
 		origen = new JLabel();
 		destino = new JLabel();
 		tiempo= new JLabel();
 		distancia=new JLabel();
+
+
+		origen.setFont(origen.getFont().deriveFont(origen.getFont().getStyle(),15));
+		destino.setFont(origen.getFont().deriveFont(origen.getFont().getStyle(),15));
+
+		tiempo.setFont(origen.getFont().deriveFont(origen.getFont().getStyle(),15));
+		distancia.setFont(origen.getFont().deriveFont(origen.getFont().getStyle(),15));
+		reset.setFont(origen.getFont().deriveFont(origen.getFont().getStyle(),15));
+		limpiar.setFont(origen.getFont().deriveFont(origen.getFont().getStyle(),15));	
 
 		origen.setText("Origen: ");
 		destino.setText("Destino: ");
@@ -201,6 +209,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		// Acciones de los botones
 		// Restablece los valores por defecto del mapa
+		getTopLevelAncestor().requestFocus();
 		if (e.getSource() == reset) {
 			x = 0;
 			y = 0;
@@ -240,7 +249,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 					System.out.println("\tCoste total: " + res.getLeft());
 
 					tiempo.setText("Tiempo total: "+(int) (res.getLeft()*60) +" minutos y "+ (int)((res.getLeft()*60-(int)(res.getLeft()*60))*60)+" segundos");
-					distancia.setText("Distancia total: "+res.getCenter()+" Km");
+					distancia.setText("Distancia total: "+String.format("%.3f", res.getCenter())+" Km");
 					// System.out.println("\tDistancia total: " + res.getCenter());
 					Parada meta = res.getRight();
 					while (meta != null) {
@@ -249,6 +258,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 						meta = meta.parent;
 					}
 				} else {
+					
 					paradaOrigen = paradas.get(i);
 					origen.setText("Origen: " + paradaOrigen.nombre);
 				}
@@ -290,7 +300,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
+		
 		int code = e.getKeyCode();
 		if (code == KeyEvent.VK_UP) {
 			// mueve la "camara" hacia arriba, en realidad lo que hace es disminuir
