@@ -11,7 +11,6 @@ public  class Parada{
 	ArrayList<Conexion> conexiones;
 	Color color;
 	Parada parent;
-	double gDistancia;
 	double g;
 	double h;
 
@@ -24,7 +23,6 @@ public  class Parada{
 		this.x=x;
 		this.y=y;
 		this.parent = null;
-		this.gDistancia = 0;
 		this.g = 0;
 		this.h = 0;
 	}
@@ -37,7 +35,6 @@ public  class Parada{
 		this.x=p.x;
 		this.y=p.y;
 		this.parent = p.parent;
-		this.gDistancia = p.gDistancia;
 		this.g = p.g;
 		this.h = p.h;
 	}
