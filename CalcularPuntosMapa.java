@@ -89,7 +89,7 @@ public class CalcularPuntosMapa {
 		int id1=0;
 		int id2=0;
 		double distanciaTrasbordo;
-		double velocidadHumano;
+		double velocidadHumano =5,0;
 		Parada parada1;
 		Parada parada2;
 		Conexion conexion1;
