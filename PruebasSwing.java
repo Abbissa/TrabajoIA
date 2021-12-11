@@ -192,7 +192,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		PS.add(distancia);
 
 		frame.setSize(1000, 1000);
-		frame.setLocation(200, 200);
+		frame.setLocation(50, 50);
 		frame.setVisible(true);
 
 		for (int i = 0; i < paradas.size(); i++) {
