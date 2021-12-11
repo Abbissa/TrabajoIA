@@ -85,20 +85,23 @@ public class CalcularPuntosMapa {
 	private static void definirTrasbordos(Scanner sc) {
 		int id1=0;
 		int id2=0;
+		Double distanciaTrasbordo;
 		Parada parada1;
 		Parada parada2;
 		Conexion conexion1;
 		while(sc.hasNext()){
 			id1=sc.nextInt();
 			id2=sc.nextInt();
-
+			distanciaTrasbordo = sc.nextDouble();
 			parada1=paradas.get(id1);
 			parada2=paradas.get(id2);
 			conexion1=new Conexion();
+			conexion1.distancia=distanciaTrasbordo;
 			conexion1.destino=parada2;
 			parada1.conexiones.add(conexion1);
 			conexion1=new Conexion();
 			conexion1.destino=parada1;
+			conexion1.distancia=distanciaTrasbordo;
 			parada2.conexiones.add(conexion1);
 		}
 
