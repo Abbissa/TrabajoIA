@@ -32,7 +32,7 @@ public class A_estrella {
 					if(idx==-1){
 						Parada paradaEnListaCerrada = listaCerrada.get(p.nombre);
 						if(paradaEnListaCerrada!=null){
-							//TODO Comprobar si hay que redirigir punteros en los descendientes
+							//Comprobamos si hay que redirigir punteros en los descendientes
 							for(Conexion conexSuc : paradaEnListaCerrada.conexiones){
 								double nuevoG = nodoAct.g + conexSuc.distancia;
 								double f = nuevoG + paradaEnListaCerrada.h;
@@ -51,9 +51,7 @@ public class A_estrella {
 
 
 					}else{
-						//TODO comprobar si hay que actualizar puntero. Hecho
-						//TODO iterator para buscar la paradaCoincidente. Hecho
-
+						//Comprobamos si hay que actualizar puntero
 						Parada paradaCoincidente = listaAbierta.get(idx);
 						double nuevoG = nodoAct.g + conex.distancia;
 						double f = nuevoG + paradaCoincidente.h;
