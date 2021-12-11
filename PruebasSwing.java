@@ -207,9 +207,10 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 				if (nMarcados == 2) {
 					destino = paradas.get(i);
 					deshabilitarCheckBoxes();
-					Pair<Double, Parada> res = A_estrella.calcular(origen, destino);
+					Trio<Double, Double, Parada> res = A_estrella.calcular(origen, destino);
 
 					System.out.println("\tCoste total: " + res.getLeft());
+					//System.out.println("\tDistancia total: " + res.getCenter());
 					Parada meta = res.getRight();
 					while (meta != null) {
 						meta.btn.setBackground(meta.color);
