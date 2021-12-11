@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 public class A_estrella {
 
-	public static Pair<Double, Parada> calcular(Parada origen, Parada meta) {
+	public static Pair<Double, Double, Parada> calcular(Parada origen, Parada meta) {
 		ParadaComparator comp = new ParadaComparator();
 		ArrayList<Parada> listaAbierta = new ArrayList<>();
 		HashMap<String, Parada> listaCerrada = new HashMap<>();
-		Pair<Double, Parada> res = null;
+		Pair<Double, Double, Parada> res = null;
 		Parada nodoAct = null;
 		boolean terminado = false;
 		listaAbierta.add(origen);
@@ -25,7 +25,7 @@ public class A_estrella {
 					aux.g = nodoAct.g + conex.distancia/conex.velocidad;
 					aux.h = 0;
 					aux.parent = new Parada(nodoAct);
-					res = new Pair<Double, Parada>(aux.g, aux);
+					res = new Pair<Double, Double, Parada>(aux.g,aux.gDistancia, aux);
 					terminado = true;
 				} else {
 					int idx = findInArray(listaAbierta, p);
