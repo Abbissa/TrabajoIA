@@ -5,7 +5,7 @@ public class Trio<O,A,E> {
 	private A center;
 	private O left;
 
-	public Pair(O left,A center,E right){
+	public Trio(O left,A center,E right){
 		this.right= right;
 		this.center= center;
 		this.left = left;
