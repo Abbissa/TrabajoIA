@@ -90,14 +90,10 @@ public class CalcularPuntosMapa {
 
 	public static HashMap<Integer, Parada> CalcularPoints(int scale) {
 
-		String path = ".\\Input";
-		if (File.separator.equals("/"))
-			path = "./Input";
-		try (Scanner sc = new Scanner(new File(path))) {
-
 			paradas = new HashMap<Integer, Parada>(52);
 
 			leerSinScan();
+
 			//LeerDef(sc);
 			//System.out.println("Fin de lecura de paradas");
 			//definirTrasbordos(sc);
@@ -105,9 +101,6 @@ public class CalcularPuntosMapa {
 
 			definirPuntos(scale);
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 
 		return paradas;
 	}
