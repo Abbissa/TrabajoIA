@@ -13,12 +13,10 @@ public class A_estrella {
 		boolean terminado = false;
 		listaAbierta.add(origen);
 		while (!listaAbierta.isEmpty() && !terminado) {
-			System.out.println("b");
 			nodoAct = listaAbierta.remove(listaAbierta.size() - 1);
 			ArrayList<Conexion> sucesores = getSucesores(nodoAct);
 			Iterator<Conexion> it = sucesores.iterator();
 			while (it.hasNext() && !terminado) {
-				System.out.println("a");
 				Conexion conex = it.next();
 				Parada p = conex.destino;
 				if (p.equals(meta)) {
@@ -37,7 +35,7 @@ public class A_estrella {
 						if (paradaEnListaCerrada != null) {
 							// TODO Comprobar si hay que redirigir punteros en los descendientes
 							for (Conexion conexSuc : paradaEnListaCerrada.conexiones) {
-								System.out.println("e");
+
 								double nuevoGDistancia = nodoAct.gDistancia + conexSuc.distancia;
 								double nuevoG = nodoAct.g + conexSuc.distancia/conexSuc.velocidad;
 								double f = nuevoG + paradaEnListaCerrada.h;
@@ -51,7 +49,8 @@ public class A_estrella {
 							Parada pCpy = new Parada(p);
 							pCpy.gDistancia = nodoAct.gDistancia + conex.distancia;
 							pCpy.g = nodoAct.g + conex.distancia/conex.velocidad;
-							pCpy.h = haversine(p.y, p.x, meta.y, meta.x)/36.11;
+							System.out.println(haversine(p.coordy, p.coordx, meta.coordy, meta.coordx));
+							pCpy.h = haversine(p.coordy, p.coordx, meta.coordy, meta.coordx)/36.11;
 							pCpy.parent = new Parada(nodoAct);
 							listaAbierta.add(pCpy);
 						}
@@ -88,13 +87,8 @@ public class A_estrella {
 			int highIndex = listaAbierta.size() - 1;
 			boolean terminado = false;
 			while (lowIndex <= highIndex && !terminado) {
-				System.out.println("c");
 				int midIndex = (lowIndex + highIndex) / 2;
 				Parada parada = listaAbierta.get(midIndex);
-				System.out.println("---------");
-				System.out.println(lowIndex);
-				System.out.println(highIndex);
-				System.out.println("----------");
 				if (parada.equals(p)) {
 					res = midIndex;
 					terminado = true;
@@ -112,7 +106,7 @@ public class A_estrella {
 		ArrayList<Conexion> res = new ArrayList<>();
 		ArrayList<Conexion> sucesores = p.conexiones;
 		for (Conexion conex : sucesores) {
-			System.out.println("g");
+			
 			Parada sucesor = conex.destino;
 			if (!estaEmparentado(sucesor, p)) {
 				res.add(conex);
@@ -125,7 +119,6 @@ public class A_estrella {
 		boolean res = false;
 		Parada p = padre;
 		while (p != null && !res) {
-			System.out.println("d");
 			if (p.equals(sucesor)) {
 				res = true;
 			}

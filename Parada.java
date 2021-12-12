@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public  class Parada{
 	String nombre;
+	double coordx;
+	double coordy;
 	double x;
 	double y;
 	JCheckBox btn;
@@ -24,8 +26,8 @@ public  class Parada{
 		this.color=color;
 		btn = new JCheckBox();
 		this.nombre=nombre;
-		this.x=x;
-		this.y=y;
+		this.coordx=x;
+		this.coordy=y;
 		this.parent = null;
 		this.gDistancia = 0;
 		this.g = 0;

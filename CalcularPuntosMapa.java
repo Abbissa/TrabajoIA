@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class CalcularPuntosMapa {
-	private static Color[] colores = { new Color(255, 0, 0), new Color(0, 255, 0), new Color(0, 0, 255) };
+	private static Color[] colores = { new Color(255, 0, 0), new Color(0, 0, 255), new Color(0, 255, 0) };
 	private static String[][] nombres = {
 			{ "Lisova", "Chernihivska", "Darnytsia", "Livoberezhna", "Hidropark", "Dnipro", "Arsenaina", "Khreshchatyk",
 					"Teatralna",
@@ -153,8 +153,7 @@ public class CalcularPuntosMapa {
 			id1 = origen[i];
 			id2 = destino[i];
 			distanciaTrasbordo = distanciaT[i];
-			System.out.println(id1);
-			System.out.println(id2);
+			
 			parada1 = paradas.get(id1);
 			parada2 = paradas.get(id2);
 			conexion1 = new Conexion();
@@ -167,6 +166,9 @@ public class CalcularPuntosMapa {
 			conexion1.velocidad = velocidadHumano;
 			conexion1.destino = parada1;
 			parada2.conexiones.add(conexion1);
+
+			System.out.println(distanciaTrasbordo);
+			System.out.println(velocidadHumano);
 		}
 	}
 
@@ -262,26 +264,26 @@ public class CalcularPuntosMapa {
 		for (int i = 0; i < paradas.size(); i++) {
 			Parada parada = paradas.get(i);
 
-			if (maxX == null || maxX < parada.x) {
-				maxX = parada.x;
+			if (maxX == null || maxX < parada.coordx) {
+				maxX = parada.coordx;
 			}
-			if (minX == null || minX > parada.x) {
-				minX = parada.x;
+			if (minX == null || minX > parada.coordx) {
+				minX = parada.coordx;
 			}
 
-			if (maxY == null || maxY < parada.y) {
-				maxY = parada.y;
+			if (maxY == null || maxY < parada.coordy) {
+				maxY = parada.coordy;
 			}
-			if (minY == null || minY > parada.y) {
-				minY = parada.y;
+			if (minY == null || minY > parada.coordy) {
+				minY = parada.coordy;
 			}
 
 		}
 		for (int i = 0; i < paradas.size(); i++) {
 			Parada parada = paradas.get(i);
 
-			parada.x = (scale * (parada.x - minX) / (maxX - minX));
-			parada.y = (scale * (parada.y - minY) / (maxY - minY));
+			parada.x = (scale * (parada.coordx - minX) / (maxX - minX));
+			parada.y = (scale * (parada.coordy - minY) / (maxY - minY));
 
 		}
 
