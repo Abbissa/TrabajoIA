@@ -166,9 +166,6 @@ public class CalcularPuntosMapa {
 			conexion1.velocidad = velocidadHumano;
 			conexion1.destino = parada1;
 			parada2.conexiones.add(conexion1);
-
-			System.out.println(distanciaTrasbordo);
-			System.out.println(velocidadHumano);
 		}
 	}
 

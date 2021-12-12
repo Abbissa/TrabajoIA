@@ -17,6 +17,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 	float y;
 	int mar = 50;
 	float zoom = 1;
+
 	Graphics2D g1;
 
 	static HashMap<Integer, Parada> paradas;
@@ -28,6 +29,8 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 	static JLabel origen;
 	static JLabel destino;
+
+	
 
 	static JLabel tiempo;
 	static JLabel distancia;
@@ -68,6 +71,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		reset.setBounds(width - 6 * mar, height - mar, 5 * mar, 25);
 
 		limpiar.setBounds(width - 6 * mar, (int) (3 * mar), 5 * mar, 25);
+
 
 		// Se pintan las paradas y las lineas que los unen, empezando por la parada con
 		// id = 0
@@ -137,6 +141,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
 		reset = new JButton();
 
 		reset.setText("Reset");
@@ -174,6 +179,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		frame.setFocusable(true);
 		frame.addKeyListener(PS);
 
+
 		frame.add(PS);
 		PS.add(reset);
 		PS.add(limpiar);
@@ -202,6 +208,10 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+
+
+
 
 		// Acciones de los botones
 		// Restablece los valores por defecto del mapa
@@ -343,7 +353,7 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 
 		} else if (code == KeyEvent.VK_MINUS) {
 			// disminuye el zoom hasta que llega a un limite
-			if (zoom > 0.75f) {
+			if (zoom > 1f) {
 				zoom -= 0.25f;
 			}
 			this.repaint();
