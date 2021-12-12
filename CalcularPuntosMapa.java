@@ -48,8 +48,8 @@ public class CalcularPuntosMapa {
 			Conexion conexionPre=null;
 			Conexion conexionPost=null;
 			String nombre;
-			Float x;
-			Float y;
+			double x;
+			double y;
 			double distancia=0;
 			while (!fin&&sc.hasNext("[a-zA-Z]*[\\p{Punct}*[a-zA-Z]*]*")){
 				nombre=sc.next();
@@ -58,8 +58,8 @@ public class CalcularPuntosMapa {
 				if(nombre.equals("fin")) {
 					fin=true;
 				}else {
-					y=Float.parseFloat(sc.next());
-					x=Float.parseFloat(sc.next());
+					y=sc.nextDouble();
+					x=sc.nextDouble();
 
 					Parada parada=new Parada(nombre, x, y,color);
 					if(prev!=null) {
@@ -118,10 +118,10 @@ public class CalcularPuntosMapa {
 
 	private static void definirPuntos(int scale) {
 
-		Float maxX=null;
-		Float  maxY=null;
-		Float  minX=null;
-		Float minY=null;
+		Double maxX=null;
+		Double  maxY=null;
+		Double  minX=null;
+		Double minY=null;
 
 		for (int i = 0; i < paradas.size(); i++) {
 			Parada parada=paradas.get(i);

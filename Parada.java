@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public  class Parada{
 	String nombre;
-	Float x;
-	Float y;
+	double x;
+	double y;
 	JCheckBox btn;
 	int id;	
 	ArrayList<Conexion> conexiones;
@@ -18,7 +18,7 @@ public  class Parada{
 	double g;
 	double h;
 
-	public Parada(String nombre, Float x, Float y, Color color) {
+	public Parada(String nombre, double x, double y, Color color) {
 
 		this.conexiones=new ArrayList<>(2);
 		this.color=color;

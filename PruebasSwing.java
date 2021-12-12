@@ -84,8 +84,8 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		// coordenadas en las que se va a pintar
 
 		set.add(parada);
-		Float X = 5 * marX + Math.min(height - 10 * marY, width - 5 * marX) * (parada.x + x) * zoom;
-		Float Y = 5 * marY + Math.min(height - 10 * marY, width - 5 * marX) * (1 - parada.y + y) * zoom;
+		Double X = 5 * marX + Math.min(height - 10 * marY, width - 5 * marX) * (parada.x + x) * zoom;
+		Double Y = 5 * marY + Math.min(height - 10 * marY, width - 5 * marX) * (1 - parada.y + y) * zoom;
 
 		// Se dan las propiedades al boton, es posible que haya cosas de mas en esta
 		// parte
@@ -102,8 +102,8 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		for (Conexion conexion : parada.conexiones) {
 
 			Parada paradaAux = conexion.destino;
-			Float Xaux = 5 * marX + Math.min(height - 10 * marY, width - 5 * marX) * (paradaAux.x + x) * zoom;
-			Float Yaux = 5 * marY + Math.min(height - 10 * marY, width - 5 * marX) * (1 - paradaAux.y + y) * zoom;
+			Double Xaux = 5 * marX + Math.min(height - 10 * marY, width - 5 * marX) * (paradaAux.x + x) * zoom;
+			Double Yaux = 5 * marY + Math.min(height - 10 * marY, width - 5 * marX) * (1 - paradaAux.y + y) * zoom;
 
 			// Si es un trasbordo se pinta en negro, si no en el color correspondiente
 
