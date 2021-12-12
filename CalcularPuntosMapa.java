@@ -14,7 +14,7 @@ public class CalcularPuntosMapa {
 
 		String path= ".\\Input";
 		if(File.separator.equals("/"))
-			path="/Input";
+			path="./Input";
 		try(Scanner sc= new Scanner(new File(path))){
 			
 			paradas = new HashMap<Integer,Parada>(52);
