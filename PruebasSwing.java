@@ -47,10 +47,6 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 		g1 = (Graphics2D) g;
 		g1.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-
-
-
-
 		int width = getWidth();
 		int height = getHeight();
 		marX = (int) width / 100;
@@ -248,12 +244,13 @@ public class PruebasSwing extends JPanel implements ActionListener, KeyListener 
 					paradaDestino = paradas.get(i);
 					destino.setText("Destino: " + paradaDestino.nombre);
 					deshabilitarCheckBoxes();
-					Pair<Double, Parada> res = A_estrella.calcular(paradaOrigen, paradaDestino);
+					Trio<Double, Double, Parada> res = A_estrella.calcular(paradaOrigen, paradaDestino);
 
 					System.out.println("\tCoste total: " + res.getLeft());
 
-					tiempo.setText("Tiempo total: "+(int) ((res.getLeft()/63.11)*60) +" min. y "+ (int)(((res.getLeft()/63.11)*60-(int)((res.getLeft()/63.11)*60))*60)+" seg.");
-					distancia.setText("Distancia total: "+String.format("%.3f", res.getLeft())+" Km");
+					tiempo.setText("Tiempo total: "+(int) (res.getLeft()*60) +" minutos y "+ (int)((res.getLeft()*60-(int)(res.getLeft()*60))*60)+" segundos");
+					distancia.setText("Distancia total: "+String.format("%.3f", res.getCenter())+" Km");
+					// System.out.println("\tDistancia total: " + res.getCenter());
 					Parada meta = res.getRight();
 					while (meta != null) {
 						meta.btn.setBackground(meta.color);

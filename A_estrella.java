@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 public class A_estrella {
 
-	public static Pair<Double, Parada> calcular(Parada origen, Parada meta) {
+	public static Trio<Double, Double, Parada> calcular(Parada origen, Parada meta) {
 		ParadaComparator comp = new ParadaComparator();
 		ArrayList<Parada> listaAbierta = new ArrayList<>();
 		HashMap<String, Parada> listaCerrada = new HashMap<>();
-		Pair<Double, Parada> res = null;
+		Trio<Double, Double, Parada> res = null;
 		Parada nodoAct = null;
 		boolean terminado = false;
 		listaAbierta.add(origen);
@@ -21,10 +21,11 @@ public class A_estrella {
 				Parada p = conex.destino;
 				if (p.equals(meta)) {
 					Parada aux = new Parada(p);
-					aux.g = nodoAct.g + conex.distancia;
+					aux.gDistancia = nodoAct.gDistancia + conex.distancia;
+					aux.g = nodoAct.g + conex.distancia/conex.velocidad;
 					aux.h = 0;
 					aux.parent = new Parada(nodoAct);
-					res = new Pair<Double, Parada>(aux.g, aux);
+					res = new Trio<Double, Double, Parada>(aux.g,aux.gDistancia, aux);
 					terminado = true;
 				} else {
 					int idx = findInArray(listaAbierta, p);
@@ -33,17 +34,20 @@ public class A_estrella {
 						if (paradaEnListaCerrada != null) {
 							// TODO Comprobar si hay que redirigir punteros en los descendientes
 							for (Conexion conexSuc : paradaEnListaCerrada.conexiones) {
-								double nuevoG = nodoAct.g + conexSuc.distancia;
+								double nuevoGDistancia = nodoAct.gDistancia + conexSuc.distancia;
+								double nuevoG = nodoAct.g + conexSuc.distancia/conexSuc.velocidad;
 								double f = nuevoG + paradaEnListaCerrada.h;
 								if (f < paradaEnListaCerrada.f()) {
 									paradaEnListaCerrada.g = nuevoG;
+									paradaEnListaCerrada.gDistancia = nuevoGDistancia;
 									paradaEnListaCerrada.parent = new Parada(nodoAct);
 								}
 							}
 						} else {
 							Parada pCpy = new Parada(p);
-							pCpy.g = nodoAct.g + conex.distancia;
-							pCpy.h = haversine(p.y, p.x, meta.y, meta.x);
+							pCpy.gDistancia = nodoAct.gDistancia + conex.distancia;
+							pCpy.g = nodoAct.g + conex.distancia/conex.velocidad;
+							pCpy.h = haversine(p.y, p.x, meta.y, meta.x)/36.11;
 							pCpy.parent = new Parada(nodoAct);
 							listaAbierta.add(pCpy);
 						}
@@ -53,10 +57,12 @@ public class A_estrella {
 						// TODO iterator para buscar la paradaCoincidente. Hecho
 
 						Parada paradaCoincidente = listaAbierta.get(idx);
-						double nuevoG = nodoAct.g + conex.distancia;
+						double nuevoGDistancia = nodoAct.gDistancia + conex.distancia;
+						double nuevoG = nodoAct.g + conex.distancia/conex.velocidad;
 						double f = nuevoG + paradaCoincidente.h;
 						if (paradaCoincidente.f() < f) {
 							paradaCoincidente.g = nuevoG;
+							paradaCoincidente.gDistancia = nuevoGDistancia;
 							paradaCoincidente.parent = new Parada(nodoAct);
 						}
 

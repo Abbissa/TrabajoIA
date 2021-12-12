@@ -2,6 +2,9 @@ import javax.swing.JCheckBox;
 import java.awt.Color;
 import java.util.ArrayList;
 
+//	Podria ser mejor que el ActionListener de los botones de las Paradas sean las propias paradas
+// aunque puede llevar a problemas ya que la parada es la que tiene que comunicar a el main quien es
+
 public  class Parada{
 	String nombre;
 	Float x;
@@ -11,6 +14,7 @@ public  class Parada{
 	ArrayList<Conexion> conexiones;
 	Color color;
 	Parada parent;
+	double gDistancia;
 	double g;
 	double h;
 
@@ -23,6 +27,7 @@ public  class Parada{
 		this.x=x;
 		this.y=y;
 		this.parent = null;
+		this.gDistancia = 0;
 		this.g = 0;
 		this.h = 0;
 	}
@@ -35,6 +40,7 @@ public  class Parada{
 		this.x=p.x;
 		this.y=p.y;
 		this.parent = p.parent;
+		this.gDistancia = p.gDistancia;
 		this.g = p.g;
 		this.h = p.h;
 	}
