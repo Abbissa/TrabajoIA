@@ -13,13 +13,16 @@ public class A_estrella {
 		boolean terminado = false;
 		listaAbierta.add(origen);
 		while (!listaAbierta.isEmpty() && !terminado) {
+			System.out.println("b");
 			nodoAct = listaAbierta.remove(listaAbierta.size() - 1);
 			ArrayList<Conexion> sucesores = getSucesores(nodoAct);
 			Iterator<Conexion> it = sucesores.iterator();
 			while (it.hasNext() && !terminado) {
+				System.out.println("a");
 				Conexion conex = it.next();
 				Parada p = conex.destino;
 				if (p.equals(meta)) {
+					
 					Parada aux = new Parada(p);
 					aux.gDistancia = nodoAct.gDistancia + conex.distancia;
 					aux.g = nodoAct.g + conex.distancia/conex.velocidad;
@@ -34,6 +37,7 @@ public class A_estrella {
 						if (paradaEnListaCerrada != null) {
 							// TODO Comprobar si hay que redirigir punteros en los descendientes
 							for (Conexion conexSuc : paradaEnListaCerrada.conexiones) {
+								System.out.println("e");
 								double nuevoGDistancia = nodoAct.gDistancia + conexSuc.distancia;
 								double nuevoG = nodoAct.g + conexSuc.distancia/conexSuc.velocidad;
 								double f = nuevoG + paradaEnListaCerrada.h;
@@ -73,6 +77,7 @@ public class A_estrella {
 			// Añadir nodoAct a la lista cerrada, creando una copia.
 			listaCerrada.put(nodoAct.nombre, new Parada(nodoAct));
 		}
+		
 		return res;
 	}
 
@@ -82,10 +87,14 @@ public class A_estrella {
 			int lowIndex = 0;
 			int highIndex = listaAbierta.size() - 1;
 			boolean terminado = false;
-
 			while (lowIndex <= highIndex && !terminado) {
+				System.out.println("c");
 				int midIndex = (lowIndex + highIndex) / 2;
 				Parada parada = listaAbierta.get(midIndex);
+				System.out.println("---------");
+				System.out.println(lowIndex);
+				System.out.println(highIndex);
+				System.out.println("----------");
 				if (parada.equals(p)) {
 					res = midIndex;
 					terminado = true;
@@ -103,6 +112,7 @@ public class A_estrella {
 		ArrayList<Conexion> res = new ArrayList<>();
 		ArrayList<Conexion> sucesores = p.conexiones;
 		for (Conexion conex : sucesores) {
+			System.out.println("g");
 			Parada sucesor = conex.destino;
 			if (!estaEmparentado(sucesor, p)) {
 				res.add(conex);
@@ -115,6 +125,7 @@ public class A_estrella {
 		boolean res = false;
 		Parada p = padre;
 		while (p != null && !res) {
+			System.out.println("d");
 			if (p.equals(sucesor)) {
 				res = true;
 			}

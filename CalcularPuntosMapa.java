@@ -138,7 +138,7 @@ public class CalcularPuntosMapa {
 				paradas.put(k, parada);
 				prev = parada;
 				conexionPre = new Conexion();
-				if (j < distancias.length-1) {
+				if (j < distancias[i].length) {
 					distancia = distancias[i][j];
 					conexionPre.distancia = distancia;
 					conexionPre.velocidad = velocidadMetro;
