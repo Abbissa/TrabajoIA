@@ -124,7 +124,7 @@ public class CalcularPuntosMapa {
 			Conexion conexionPost = null;
 			double distancia = 0;
 			for (int j = 0; j < nombres[i].length; j++) {
-				Parada parada = new Parada(nombres[i][j], coords[i][j][0], coords[i][j][0], colores[i]);
+				Parada parada = new Parada(nombres[i][j], coords[i][j][1], coords[i][j][0], colores[i]);
 				if (prev != null) {
 					conexionPost = new Conexion();
 					conexionPost.destino = prev;
